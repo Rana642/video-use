@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
@@ -49,12 +50,16 @@ except Exception:
 # baseline roughly 30% up from the bottom on any aspect — clear of the UI on
 # every major vertical-video platform. Do not drop this below ~75 without a
 # specific reason.
-SUB_FORCE_STYLE = (
+DEFAULT_SUB_FORCE_STYLE = (
     "FontName=Helvetica,FontSize=18,Bold=1,"
     "PrimaryColour=&H00FFFFFF,OutlineColour=&H00000000,BackColour=&H00000000,"
     "BorderStyle=1,Outline=2,Shadow=0,"
     "Alignment=2,MarginV=90"
 )
+# A caller can restyle captions for a brand (font, colours) without forking
+# this file: VIDEO_USE_SUB_FORCE_STYLE replaces the whole force_style string.
+# Keep MarginV >= ~75 in any override, for the platform safe-zone reason above.
+SUB_FORCE_STYLE = os.environ.get("VIDEO_USE_SUB_FORCE_STYLE") or DEFAULT_SUB_FORCE_STYLE
 
 # -------- Helpers ------------------------------------------------------------
 
